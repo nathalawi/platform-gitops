@@ -29,8 +29,15 @@ crds:
   validationFailurePolicy: Fail
 
 prometheus:
-  scrapeAnnotations: true
+  scrapeAnnotations: false
+  metricsPort: 7472
+  rbacPrometheus: true
+
   podMonitor:
-    enabled: true
+    enabled: false
+
   serviceMonitor:
-    enabled: true
+    enabled: false
+
+  prometheusRule:
+    enabled: false
