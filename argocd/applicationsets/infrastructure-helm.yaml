@@ -30,7 +30,7 @@ spec:
             chart: cert-manager
             version: v1.19.2
             valuesPath: infrastructure/cert-manager/values.yaml
-            wave: 2
+            wave: 1
 
           - name: loki
             namespace: observability
@@ -38,7 +38,7 @@ spec:
             chart: loki
             version: 6.53.0
             valuesPath: infrastructure/loki/values.yaml
-            wave: "2"
+            wave: 2
 
           - name: kube-prometheus-stack
             namespace: observability
@@ -46,7 +46,7 @@ spec:
             chart: kube-prometheus-stack
             version: "82.1.0"
             valuesPath: infrastructure/kube-prometheus-stack/values.yaml
-            wave: "2"
+            wave: 1
 
           - name: promtail
             namespace: observability
@@ -54,7 +54,7 @@ spec:
             chart: promtail
             version: "6.17.1"
             valuesPath: infrastructure/promtail/values.yaml
-            wave: "2"
+            wave: 2
 
           - name: crossplane
             namespace: crossplane
