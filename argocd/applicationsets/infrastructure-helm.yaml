@@ -16,6 +16,14 @@ spec:
             valuesPath: infrastructure/cilium/values.yaml
             wave: 1
 
+          - name: external-dns
+            namespace: external-dns
+            repoURL: oci://registry-1.docker.io/bitnamicharts/external-dns
+            chart: external-dns
+            version: 9.0.3
+            valuesPath: infrastructure/external-dns/values.yaml
+            wave: 1
+
           - name: metallb
             namespace: metallb
             repoURL: https://metallb.github.io/metallb
