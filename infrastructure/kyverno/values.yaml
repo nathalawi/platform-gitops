@@ -37,8 +37,10 @@ cleanupController:
   replicas: 1
 
 features:
-  backgroundScan: true
-  cleanup: true
+  backgroundScan:
+    enabled: true
+  cleanup:
+    enabled: true
 
 networkPolicy:
   enabled: false
