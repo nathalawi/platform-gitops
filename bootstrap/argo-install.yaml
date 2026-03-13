@@ -12,6 +12,8 @@ spec:
     repoURL: https://github.com/nathalawi/platform-gitops
     targetRevision: main
     path: argocd
+    directory:
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
