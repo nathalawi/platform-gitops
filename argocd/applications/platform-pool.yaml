@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/nathalawi/platform-gitops
     targetRevision: main
-    path: infrastructure/metallb/ip-pool.yaml
+    path: infrastructure/metallb
     kustomize: {}
   destination:
     server: https://kubernetes.default.svc
