@@ -23,13 +23,34 @@ spec:
             issuerKind: ClusterIssuer
             issuerName: example-local-ca
 
+          - app: prometheus
+            namespace: observability
+            hostname: prometheus.example.com
+            tlsSecretName: prometheus-tls
+            issuerKind: ClusterIssuer
+            issuerName: example-local-ca
+
+          - app: grafana
+            namespace: observability
+            hostname: grafana.example.com
+            tlsSecretName: grafana-tls
+            issuerKind: ClusterIssuer
+            issuerName: example-local-ca
+
+          - app: alertmanager
+            namespace: observability
+            hostname: alertmanager.example.com
+            tlsSecretName: alertmanager-tls
+            issuerKind: ClusterIssuer
+            issuerName: example-local-ca
+
   template:
     metadata:
       name: cert-{{.app}}
       annotations:
         argocd.argoproj.io/sync-wave: "20"
     spec:
-      project: platform
+      project: infrastructure
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{.namespace}}"

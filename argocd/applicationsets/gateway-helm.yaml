@@ -9,26 +9,46 @@ spec:
     - list:
         elements:
           - app: argocd
-            namespace: default
+            namespace: argocd
             hostname: argocd.example.com
             tlsSecretName: argocd-tls
             backendService: argocd-server
             backendPort: 80
 
           - app: backstage
-            namespace: default
+            namespace: backstage
             hostname: backstage.example.com
             tlsSecretName: backstage-tls
             backendService: backstage
             backendPort: 80
 
+          - app: alertmanager
+            namespace: observability
+            hostname: alertmanager.example.com
+            tlsSecretName: alertmanager-tls
+            backendService: alertmanager
+            backendPort: 80
+
+          - app: prometheus
+            namespace: observability
+            hostname: prometheus.example.com
+            tlsSecretName: prometheus-tls
+            backendService: prometheus
+            backendPort: 80
+
+          - app: grafana
+            namespace: observability
+            hostname: grafana.example.com
+            tlsSecretName: grafana-tls
+            backendService: grafana
+            backendPort: 80
   template:
     metadata:
       name: gw-{{.app}}
       annotations:
         argocd.argoproj.io/sync-wave: "30"
     spec:
-      project: platform
+      project: infrastructure
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{.namespace}}"

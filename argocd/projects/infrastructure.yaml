@@ -25,4 +25,6 @@
     - "https://helm.releases.hashicorp.com"
     - "https://charts.bitnami.com/bitnami"
     - "oci://registry-1.docker.io/bitnamicharts/postgresql"
+    - "https://grafana.github.io/helm-charts"
+    - "https://prometheus-community.github.io/helm-charts"
 

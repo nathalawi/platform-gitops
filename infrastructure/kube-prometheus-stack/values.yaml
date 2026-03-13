@@ -1,0 +1,65 @@
+alertmanager:
+  alertmanagerSpec:
+    routePrefix: /
+  ingress:
+    enabled: false
+    hosts:
+    - alertmanager.example.com
+    ingressClassName: nginx
+    paths:
+    - /
+    tls:
+    - hosts:
+      - alertmanager.example.com
+      secretName: alertmanager-tls
+
+grafana:
+  additionalDataSources:
+    - name: Loki
+      uid: loki
+      type: loki
+      access: proxy
+      url: http://loki-gateway.observability.svc.cluster.local:80
+      editable: false
+  sidecar:
+    datasources:
+      enabled: true
+    dashboards:
+      enabled: true
+
+  ingress:
+    enabled: false
+    hosts:
+    - grafana.example.com
+    ingressClassName: nginx
+    tls:
+    - hosts:
+      - grafana.example.com
+      secretName: grafana-tls
+
+prometheus:
+  additionalScrapeConfigs:
+    - job_name: aorders-api
+      scrape_interval: 15s
+      metrics_path: /metrics
+      static_configs:
+        - targets: ['orders-api:5001']
+    - job_name: orders-ui
+      scrape_interval: 15s
+      metrics_path: /metrics
+      static_configs:
+        - targets: ['orders-ui:5000']
+
+  ingress:
+    enabled: false
+    hosts:
+    - prometheus.example.com
+    ingressClassName: nginx
+    paths:
+    - /
+    tls:
+    - hosts:
+      - prometheus.example.com
+      secretName: prometheus-tls
+  prometheusSpec:
+    routePrefix: /
