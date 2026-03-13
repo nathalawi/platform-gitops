@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/nathalawi/platform-gitops
-    targetRevision: HEAD
+    targetRevision: main
     path: bootstrap/argocd-crds
     kustomize: {}
   destination:
