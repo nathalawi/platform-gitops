@@ -1,0 +1,29 @@
+kubeProxyReplacement: true
+gatewayAPI:
+  enabled: true
+ipam:
+  mode: kubernetes
+envoy:
+  enabled: true
+hubble:
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+    frontend:
+      server:
+        ipv6:
+          enabled: false
+  metrics:
+    enableOpenMetrics: true
+    enabled:
+      - dns
+      - drop
+      - flow
+      - tcp
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+dashboards:
+  enabled: true

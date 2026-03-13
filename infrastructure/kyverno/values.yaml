@@ -1,0 +1,44 @@
+admissionController:
+  replicas: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      memory: 384Mi
+  tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values: ["kyverno"]
+          topologyKey: kubernetes.io/hostname
+  createSelfSignedCert: true
+  webhookServer:
+    port: 9443
+
+backgroundController:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+
+cleanupController:
+  enabled: true
+  replicas: 1
+
+features:
+  backgroundScan: true
+  cleanup: true
+
+networkPolicy:
+  enabled: false

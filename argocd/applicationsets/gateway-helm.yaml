@@ -1,0 +1,54 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: gateway-helm
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - list:
+        elements:
+          - app: argocd
+            namespace: default
+            hostname: argocd.example.com
+            tlsSecretName: argocd-tls
+            backendService: argocd-server
+            backendPort: 80
+
+          - app: backstage
+            namespace: default
+            hostname: backstage.example.com
+            tlsSecretName: backstage-tls
+            backendService: backstage
+            backendPort: 80
+
+  template:
+    metadata:
+      name: gw-{{.app}}
+      annotations:
+        argocd.argoproj.io/sync-wave: "30"
+    spec:
+      project: platform
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{.namespace}}"
+      source:
+        repoURL: https://github.com/nathalawi/platform-gitops
+        targetRevision: main
+        path: charts/gateway-app
+        helm:
+          values: |
+            app: {{.app}}
+            hostname: {{.hostname}}
+            tlsSecretName: {{.tlsSecretName}}
+            gatewayClassName: cilium
+            backend:
+              service: {{.backendService}}
+              port: {{.backendPort}}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - Validate=true

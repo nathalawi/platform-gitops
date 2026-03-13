@@ -1,0 +1,96 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: infrastructure-helm
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - list:
+        elements:
+          - name: cilium
+            namespace: cilium
+            repoURL: https://helm.cilium.io
+            chart: cilium
+            version: 1.18.6
+            valuesPath: infrastructure/cilium/values.yaml
+            wave: 1
+
+          - name: metallb
+            namespace: metallb
+            repoURL: https://metallb.github.io/metallb
+            chart: metallb
+            version: 0.15.3
+            valuesPath: infrastructure/metallb/values.yaml
+            wave: 1
+
+          - name: cert-manager
+            namespace: cert-manager
+            repoURL: https://charts.jetstack.io
+            chart: cert-manager
+            version: v1.19.2
+            valuesPath: infrastructure/cert-manager/values.yaml
+            wave: 2
+
+          - name: crossplane
+            namespace: crossplane
+            repoURL: https://charts.crossplane.io/stable
+            chart: crossplane
+            version: 2.2.0
+            valuesPath: infrastructure/crossplane/values.yaml
+            wave: 3
+
+          - name: external-dns
+            namespace: external-dns
+            repoURL: oci://registry-1.docker.io/bitnamicharts/external-dns
+            chart: external-dns
+            version: 9.0.4
+            valuesPath: infrastructure/external-dns/values.yaml
+            wave: 3
+
+          - name: backstage
+            namespace: backstage
+            repoURL: https://backstage.github.io/charts
+            chart: backstage
+            version: 2.6.3
+            valuesPath: infrastructure/backstage/values.yaml
+            wave: 3
+
+          - name: kyverno
+            namespace: kyverno
+            repoURL: https://kyverno.github.io/kyverno
+            chart: kyverno
+            version: 3.7.1
+            valuesPath: infrastructure/kyverno/values.yaml
+            wave: 3
+
+  template:
+    metadata:
+      name: "{{.name}}"
+      labels:
+        app.kubernetes.io/part-of: infrastructure
+      annotations:
+        argocd.argoproj.io/sync-wave: "{{.wave}}"
+    spec:
+      project: infrastructure
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{.namespace}}"
+
+      sources:
+        - repoURL: "{{.repoURL}}"
+          chart: "{{.chart}}"
+          targetRevision: "{{.version}}"
+          helm:
+            valueFiles:
+              - $values/{{.valuesPath}}
+        - repoURL: "https://github.com/nathalawi/platform-gitops"
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true

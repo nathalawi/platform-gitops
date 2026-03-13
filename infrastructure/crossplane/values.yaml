@@ -1,0 +1,30 @@
+controller:
+  replicas: 2
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+  tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: app
+              operator: In
+              values: ["crossplane"]
+          topologyKey: kubernetes.io/hostname
+
+packageManager:
+  enabled: true
+
+# PRE-INSTALL PROVIDERS
+provider:
+  packages:
+    - xpkg.crossplane.io/crossplane-contrib/provider-kubernetes:v1.2.1
+    - xpkg.crossplane.io/crossplane-contrib/provider-helm:v0.3.0

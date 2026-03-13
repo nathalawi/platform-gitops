@@ -1,0 +1,36 @@
+backstage:
+  replicas: 1
+  image:
+    tag: latest
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+  tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values: ["backstage"]
+          topologyKey: kubernetes.io/hostname
+
+ingress:
+  enabled: false
+
+postgresql:
+  enabled: false
+redis:
+  enabled: false
+
+app:
+  extraEnvVars:
+    - name: APP_CONFIG
+      value: "backend.baseUrl: http://backstage:7007"

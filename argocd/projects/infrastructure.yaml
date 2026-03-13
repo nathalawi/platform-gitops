@@ -1,0 +1,28 @@
+  apiVersion: argoproj.io/v1alpha1
+  kind: AppProject
+  metadata:
+    name: infrastructure
+    namespace: argocd
+  spec:
+    description: "Infrastructure add-ons managed by Argo CD ApplicationSet"
+    clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+    destinations:
+    - namespace: '*'
+      server: '*'
+    sourceRepos:
+    - "https://github.com/nathalawi/platform-gitops"
+
+    # External Helm chart repositories
+    - "https://helm.cilium.io"
+    - "https://backstage.github.io/charts"
+    - "https://charts.crossplane.io/stable"
+    - "oci://registry-1.docker.io/bitnamicharts/external-dns"
+    - "https://kyverno.github.io/kyverno/"
+    - "https://metallb.github.io/metallb"
+    - "https://charts.jetstack.io"
+    - "https://helm.releases.hashicorp.com"
+    - "https://charts.bitnami.com/bitnami"
+    - "oci://registry-1.docker.io/bitnamicharts/postgresql"
+

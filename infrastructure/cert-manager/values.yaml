@@ -1,0 +1,37 @@
+installCRDs: true
+
+crds:
+  enabled: true
+  keep: true
+
+controller:
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values: ["cert-manager"]
+          topologyKey: kubernetes.io/hostname
+
+webhook:
+  replicaCount: 1
+  securePort: 10250
+
+cainjector:
+  replicaCount: 1
+
+prometheus:
+  enabled: true
