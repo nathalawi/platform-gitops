@@ -72,14 +72,6 @@ spec:
             valuesPath: infrastructure/crossplane/values.yaml
             wave: 3
 
-          - name: external-dns
-            namespace: external-dns
-            repoURL: oci://registry-1.docker.io/bitnamicharts/external-dns
-            chart: external-dns
-            version: 9.0.4
-            valuesPath: infrastructure/external-dns/values.yaml
-            wave: 3
-
           - name: backstage
             namespace: backstage
             repoURL: https://backstage.github.io/charts
