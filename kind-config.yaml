@@ -1,3 +1,4 @@
+# kind create cluster --name platform-gitops --config kind-config.yaml
 # Create network first
 # docker network create \
 #   --driver bridge \
