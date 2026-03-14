@@ -19,6 +19,7 @@
     - "https://backstage.github.io/charts"
     - "https://charts.crossplane.io/stable"
     - "oci://registry-1.docker.io/bitnamicharts/external-dns"
+    - "https://kubernetes-sigs.github.io/external-dns/"
     - "https://kyverno.github.io/kyverno/"
     - "https://metallb.github.io/metallb"
     - "https://charts.jetstack.io"

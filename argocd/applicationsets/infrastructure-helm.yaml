@@ -18,9 +18,9 @@ spec:
 
           - name: external-dns
             namespace: external-dns
-            repoURL: oci://registry-1.docker.io/bitnamicharts/external-dns
+            repoURL: https://kubernetes-sigs.github.io/external-dns/
             chart: external-dns
-            version: 9.0.3
+            version: 1.20.0
             valuesPath: infrastructure/external-dns/values.yaml
             wave: 1
 

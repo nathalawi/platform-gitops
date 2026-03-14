@@ -1,24 +1,25 @@
-provider: fake
+provider:
+  name: fake
 
 sources:
   - service
   - ingress
   - gateway-httproute
 
+policy: sync
+registry: txt
+txtOwnerId: kind-platform-demo
+
 replicaCount: 1
+
 resources:
   requests:
     cpu: 50m
     memory: 64Mi
 
 tolerations:
-- key: node-role.kubernetes.io/control-plane
-  operator: Exists
-  effect: NoSchedule
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
 
-extraArgs:
-  - --log-level=info
-  - --txt-owner-id=kind-platform-demo
-
-policy: sync
-registry: txt
+logLevel: info
