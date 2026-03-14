@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coredns-local
+  namespace: local-dns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coredns-local
+  template:
+    metadata:
+      labels:
+        app: coredns-local
+    spec:
+      containers:
+      - name: coredns
+        image: coredns/coredns:1.11.1
+        args:
+          - "-conf"
+          - "/etc/coredns/Corefile"
+        ports:
+          - containerPort: 53
+            protocol: UDP
+          - containerPort: 53
+            protocol: TCP
+        volumeMounts:
+          - name: config
+            mountPath: /etc/coredns
+      volumes:
+        - name: config
+          configMap:
+            name: coredns-local-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-local-config
+  namespace: local-dns
+data:
+  Corefile: |
+    example.com:53 {
+        errors
+        log
+        hosts {
+            fallthrough
+        }
+        reload
+        forward . 8.8.8.8 8.8.4.4
+    }

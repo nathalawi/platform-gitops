@@ -1,27 +1,18 @@
 provider:
-  name: inmemory
-
+  name: rfc2136
+rfc2136:
+  host: coredns-demo.dns.svc.cluster.local
+  port: 53
+  zone: example.com.
+  tsigSecretName: rfc2136-tsig
+  tsigSecretAlgorithm: HMAC-SHA256
+  tsigSecretKey: "replace-with-base64-key"
 sources:
   - service
-  - ingress
   - gateway-httproute
-
 policy: sync
 registry: txt
 txtOwnerId: kind-platform-demo
-
-replicaCount: 1
-
-resources:
-  requests:
-    cpu: 50m
-    memory: 64Mi
-
-tolerations:
-  - key: node-role.kubernetes.io/control-plane
-    operator: Exists
-    effect: NoSchedule
-
 logLevel: info
-
 interval: 30s
+replicaCount: 1
