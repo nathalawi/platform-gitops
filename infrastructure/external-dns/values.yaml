@@ -1,12 +1,9 @@
 provider:
   name: rfc2136
 rfc2136:
-  host: coredns-demo.dns.svc.cluster.local
+  host: coredns-local.local-dns.svc.cluster.local
   port: 53
   zone: example.com.
-  tsigSecretName: rfc2136-tsig
-  tsigSecretAlgorithm: HMAC-SHA256
-  tsigSecretKey: "replace-with-base64-key"
 sources:
   - service
   - gateway-httproute
