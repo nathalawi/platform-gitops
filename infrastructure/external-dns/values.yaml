@@ -1,5 +1,5 @@
 provider:
-  name: fake
+  name: inmemory
 
 sources:
   - service
@@ -23,3 +23,5 @@ tolerations:
     effect: NoSchedule
 
 logLevel: info
+
+interval: 30s
